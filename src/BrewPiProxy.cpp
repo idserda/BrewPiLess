@@ -3,6 +3,7 @@
 
 #include "Brewpi.h"
 #include <stdarg.h>
+#include <ESP8266WiFi.h>
 
 #include "stddef.h"
 #include "PiLink.h"
@@ -95,8 +96,9 @@ void BrewPiProxy::getLogInfo(char *pUnit,uint8_t *pMode,uint8_t *pState)
 	*pMode = (uint8_t) tempControl.getMode();
 }
 
-void BrewPiProxy::getAllStatus(uint8_t *pState,uint8_t *pMode,float *pBeerTemp,float *pBeerSet,float *pFridgeTemp, float *pFridgeSet, float *pRoomTemp)
+void BrewPiProxy::getAllStatus(uint8_t *pState,uint8_t *pMode,float *pBeerTemp,float *pBeerSet,float *pFridgeTemp, float *pFridgeSet, float *pRoomTemp, char *statusLine, int32_t *rssi)
 {
+	display.getLine(3,statusLine);
 	*pBeerTemp=temperatureFloatValue(tempControl.getBeerTemp());
 	*pBeerSet=temperatureFloatValue(tempControl.getBeerSetting());
 	*pFridgeTemp = temperatureFloatValue(tempControl.getFridgeTemp());
@@ -104,6 +106,7 @@ void BrewPiProxy::getAllStatus(uint8_t *pState,uint8_t *pMode,float *pBeerTemp,f
 	*pRoomTemp =temperatureFloatValue(tempControl.getRoomTemp());
 	*pState = (uint8_t) tempControl.getState();
 	*pMode = (uint8_t) tempControl.getMode();
+	*rssi = WiFi.RSSI();
 }
 
 bool BrewPiProxy::ambientSensorConnected(void)

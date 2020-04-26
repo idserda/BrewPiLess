@@ -14,6 +14,8 @@
 #define KeyPressure "pressure"
 #define KeyMode "mode"
 #define KeyState "state"
+#define KeyStatusLine "statusLine"
+#define KeyRSSI "rssi"
 
 
 size_t nonNullJson(char *buffer,size_t size);

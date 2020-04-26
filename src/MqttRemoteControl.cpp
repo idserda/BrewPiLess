@@ -110,10 +110,12 @@ void MqttRemoteControl::_reportData(void){
     }else if(_reportFormat == MqttReportIndividual){
     	
         uint8_t state, mode;
+        int32_t rssi;
 	    float beerSet,fridgeSet;
 	    float beerTemp,fridgeTemp,roomTemp;
+        char statusLine[21];
 
-	    brewPi.getAllStatus(&state,&mode,& beerTemp,& beerSet,& fridgeTemp,& fridgeSet,& roomTemp);
+	    brewPi.getAllStatus(&state,&mode,& beerTemp,& beerSet,& fridgeTemp,& fridgeSet,& roomTemp, statusLine, &rssi);
         
         lastID=_publish(KeyState, (char)('0'+state));
 

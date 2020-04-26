@@ -380,12 +380,13 @@ BrewLogger::BrewLogger(void){
 
 	void BrewLogger::logData(void){
 		uint8_t state, mode;
+		int32_t rssi;
 		float fTemps[5];
+		char statusLine[21];
 
 		//brewPi.getAllStatus(&state,&mode,& beerTemp,& beerSet,& fridgeTemp,& fridgeSet,& roomTemp);
 		brewPi.getAllStatus(&state,&mode,&fTemps[OrderBeerTemp],& fTemps[OrderBeerSet],
-				& fTemps[OrderFridgeTemp],& fTemps[OrderFridgeSet],& fTemps[OrderRoomTemp]);
-
+				& fTemps[OrderFridgeTemp],& fTemps[OrderFridgeSet],& fTemps[OrderRoomTemp], statusLine, &rssi);
 
 		uint16_t iTemp;
 		uint8_t changeMask=0;

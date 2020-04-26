@@ -35,10 +35,12 @@ size_t printFloat(char* buffer,float value,int precision,bool valid,const char* 
 size_t dataSprintf(char *buffer,const char *format,const char* invalid)
 {
 	uint8_t state, mode;
+	int32_t rssi;
 	float beerSet,fridgeSet;
 	float beerTemp,fridgeTemp,roomTemp;
+	char statusLine[21];
 
-	brewPi.getAllStatus(&state,&mode,& beerTemp,& beerSet,& fridgeTemp,& fridgeSet,& roomTemp);
+	brewPi.getAllStatus(&state,&mode,& beerTemp,& beerSet,& fridgeTemp,& fridgeSet,& roomTemp, statusLine, &rssi);
 
 	int i=0;
 	size_t d=0;
@@ -156,12 +158,17 @@ size_t nonNullJson(char* buffer,size_t size)
 	#endif
 
 	uint8_t state, mode;
+	int32_t rssi;
 	float beerSet,fridgeSet;
 	float beerTemp,fridgeTemp,roomTemp;
+	char statusLine[21];
 
-	brewPi.getAllStatus(&state,&mode,& beerTemp,& beerSet,& fridgeTemp,& fridgeSet,& roomTemp);
+	brewPi.getAllStatus(&state,&mode,& beerTemp,& beerSet,& fridgeTemp,& fridgeSet,& roomTemp, statusLine, &rssi);
 
 	root[KeyState] = state;
+	root[KeyStatusLine] = statusLine;
+	
+	root[KeyRSSI] =  rssi;
 
 	if(IS_FLOAT_TEMP_VALID(beerTemp)) root[KeyBeerTemp] = beerTemp;
 	if(IS_FLOAT_TEMP_VALID(beerSet)) root[KeyBeerSet] = beerSet;
