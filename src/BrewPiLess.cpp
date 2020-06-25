@@ -539,7 +539,7 @@ public:
 	 	    if(!request->authenticate(syscfg->username, syscfg->password))
 	        return request->requestAuthentication();
 		 	request->send(200,"text/html","Done, restarting..");
-			#if ESP32
+			#if SaveWiFiConfiguration
 			WiFiConfiguration *wifiCon=theSettings.getWifiConfiguration();
 			wifiCon->ssid[0]='\0';
 			wifiCon->pass[0]='\0';
@@ -1512,7 +1512,7 @@ public:
 			}
 			theSettings.save();
 
-		#ifdef ESP32
+		#ifdef SaveWiFiConfiguration
 		DBG_PRINTF("SSID:%s\n",ssid.c_str());
 		theSettings.setWiFiConfiguration(ssid.c_str(),pass);
 		#endif
@@ -1817,7 +1817,7 @@ void setup(void){
 	WiFiMode wifiMode= (WiFiMode) syscfg->wifiMode;
 	WiFiSetup.staConfig(IPAddress(syscfg->ip),IPAddress(syscfg->gw),IPAddress(syscfg->netmask),IPAddress(syscfg->dns));
 	WiFiSetup.onEvent(wiFiEvent);
-#ifdef ESP32
+#ifdef SaveWiFiConfiguration
 	WiFiConfiguration *wifiCon=theSettings.getWifiConfiguration();
 
 	if(strlen(syscfg->hostnetworkname)>0)
